@@ -1,0 +1,321 @@
+.ribbon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 1s ease-in-out;
+  cursor: url("/assets/scissors.webp") 28 21, auto;
+
+  &.clicked {
+    cursor: url("/assets/scissors-closed.webp") 28 21, auto !important;
+  }
+
+  &:after {
+    content: " ";
+    position: absolute;
+    width: calc(100% - 150px);
+    height: 100%;
+    left: 75px;
+    top: 0;
+    background: url("/assets/red-carpet.webp") center 35% no-repeat;
+    background-size: cover;
+    opacity: 0.25;
+    transition: 1s;
+    transition-delay: .2s;
+    scale: 1;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition-delay: 3s;
+    transition: 1.5s;
+
+  }
+
+  .ribbon-nav {
+    position: relative;
+    width: calc(100% - 150px);
+    height: 40px;
+    z-index: 1;
+    display: flex;
+    &-center{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      translate: -50% -50%;
+      z-index: 3;
+      transition: .5s;
+    }
+    .ribbon-nav-right, .ribbon-nav-left {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      background: red;
+      z-index: 2;
+      border-right-width: 1.5em;
+      transition: all 1s ease-in-out;
+      box-shadow: 0 9px 33px -11px black;
+    }
+
+    .ribbon-nav-right:after, .ribbon-nav-left:after {
+      content: "";
+      position: absolute;
+      display: block;
+      bottom: -1em;
+      border: 1.5em solid red;
+      z-index: -1;
+    }
+
+    .ribbon-nav-right:before, .ribbon-nav-left:before {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: #7f1f1f transparent transparent transparent;
+      bottom: -1em;
+    }
+
+    .ribbon-nav-right {
+      right: 0;
+
+      &:before {
+        right: 13px;
+        border-width: 1em 0 0 1rem;
+      }
+
+      &:after {
+        right: -2em;
+        border-right-color: transparent;
+      }
+    }
+
+    .ribbon-nav-left {
+      left: 0;
+
+      &:before {
+        left: 13px;
+        border-width: 1em 1rem 0 0;
+      }
+
+      &:after {
+        left: -2em;
+        border-left-color: transparent;
+      }
+    }
+
+    &.cutting .ribbon-nav-right, &.cutting .ribbon-nav-left {
+      opacity: 0;
+    }
+
+    &.cutting .ribbon-nav-right {
+      transform: translate(100%, 250px) rotate(25deg) skew(-20deg);
+    }
+
+    &.cutting .ribbon-nav-left {
+      transform: translate(-100%, 250px) rotate(-25deg) skew(20deg);
+    }
+    &.cutting .ribbon-nav-center {
+      transform: translate(0, 400px) rotate(-25deg) skew(20deg)  ;
+      opacity: 0;
+    }
+
+  }
+
+  &.cutting:after {
+    scale: 3;
+  }
+
+  &.cutting:before {
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+  }
+
+  .wrapper {
+    position: absolute;
+    z-index: 9;
+    min-height: 0;
+    width: 100%;
+    top: 0;
+    overflow: hidden;
+  }
+  &.cutting .wrapper{
+    min-height: 100dvh;
+  }
+
+}
+
+$colors: (#d13447, #ffbf00, #263672);
+[class|="confetti"] {
+  position: absolute;
+}
+@for $i from 0 through 150 {
+  $w: random(8);
+  $l: random(100);
+  .confetti-#{$i} {
+    width: #{$w}px;
+    height: #{$w*0.4}px;
+    background-color: nth($colors, random(3));
+    top: -10%;
+    left: unquote($l+"%");
+    opacity: random() + 0.5;
+    transform: rotate(#{random()*360}deg);
+    animation: drop-#{$i} unquote(4+random()+"s") unquote(random()+"s") infinite;
+  }
+
+  @keyframes drop-#{$i} {
+    100% {
+      top: 110%;
+      left: unquote($l+random(15)+"%");
+    }
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .ribbon {
+    cursor: auto;
+
+    &:after {
+      width: 100%;
+      left: 0;
+      background: url("/assets/red-carpet.webp") center 35% no-repeat;
+      background-size: cover;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition-delay: 3s;
+      transition: 1.5s;
+
+    }
+
+    .ribbon-nav {
+      position: relative;
+      width: calc(100% - 150px);
+      height: 40px;
+      z-index: 1;
+      display: flex;
+      &-center{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
+        z-index: 3;
+        transition: .5s;
+      }
+      .ribbon-nav-right, .ribbon-nav-left {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        background: red;
+        z-index: 2;
+        border-right-width: 1.5em;
+        transition: all 1s ease-in-out;
+        box-shadow: 0 9px 33px -11px black;
+      }
+
+      .ribbon-nav-right:after, .ribbon-nav-left:after {
+        content: "";
+        position: absolute;
+        display: block;
+        bottom: -1em;
+        border: 1.5em solid red;
+        z-index: -1;
+      }
+
+      .ribbon-nav-right:before, .ribbon-nav-left:before {
+        content: "";
+        position: absolute;
+        display: block;
+        border-style: solid;
+        border-color: #7f1f1f transparent transparent transparent;
+        bottom: -1em;
+      }
+
+      .ribbon-nav-right {
+        right: 0;
+
+        &:before {
+          right: 13px;
+          border-width: 1em 0 0 1rem;
+        }
+
+        &:after {
+          right: -2em;
+          border-right-color: transparent;
+        }
+      }
+
+      .ribbon-nav-left {
+        left: 0;
+
+        &:before {
+          left: 13px;
+          border-width: 1em 1rem 0 0;
+        }
+
+        &:after {
+          left: -2em;
+          border-left-color: transparent;
+        }
+      }
+
+      &.cutting .ribbon-nav-right, &.cutting .ribbon-nav-left {
+        opacity: 0;
+      }
+
+      &.cutting .ribbon-nav-right {
+        transform: translate(100%, 250px) rotate(25deg) skew(-20deg);
+      }
+
+      &.cutting .ribbon-nav-left {
+        transform: translate(-100%, 250px) rotate(-25deg) skew(20deg);
+      }
+      &.cutting .ribbon-nav-center {
+        transform: translate(0, 400px) rotate(-25deg) skew(20deg)  ;
+        opacity: 0;
+      }
+
+    }
+
+    &.cutting:after {
+      scale: 3;
+    }
+
+    &.cutting:before {
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
+    }
+
+    .wrapper {
+      position: absolute;
+      z-index: 9;
+      min-height: 0;
+      width: 100%;
+      top: 0;
+      overflow: hidden;
+    }
+    &.cutting .wrapper{
+      min-height: 100dvh;
+    }
+
+  }
+}
